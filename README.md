@@ -12,7 +12,7 @@ trustworthy.
 
 ## Pipeline
 
-The experiment builds up in four stages, each depending on the previous:
+The experiment builds up in stages, each depending on the previous:
 
 1. **Data & model** — load and prepare the LFW pairs, get ElasticFace-Arc producing
    meaningful similarity scores.
@@ -22,6 +22,11 @@ The experiment builds up in four stages, each depending on the previous:
    gradient pipeline works.
 4. **Explanation attack (main contribution)** — perturb the input to keep the decision
    stable while pushing the saliency map away from the original.
+5. **Corrected & improved explanation attack** (`04`) — fixes a gradient-sign bug in
+   stage 4, restricts the attack to genuine (accepted-match) pairs, and optimises a
+   scale-invariant correlation objective with a hard decision constraint.
+6. **Cross-method transfer** (`05`) — implements an xSSAB-style explanation and tests
+   whether an attack crafted on the gradient map transfers to xSSAB and xFace.
 
 See [approach.md](approach.md) for the full methodology, loss functions, preprocessing
 details, and evaluation metrics.
@@ -34,10 +39,21 @@ details, and evaluation metrics.
 ├── elastic_resnet.py              # ElasticFace / iResNet backbone definition
 ├── ElasticFace_paper.pdf          # Reference paper
 └── notebooks/
-    ├── 01_data_and_model.ipynb    # LFW loading + ElasticFace-Arc sanity checks
-    ├── 02_xai.ipynb               # Explainability exploration
-    └── 03_attacks.ipynb           # Warm-up + explanation attacks
+    ├── 01-data-and-model.ipynb        # LFW loading + ElasticFace-Arc sanity checks
+    ├── 02-xai.ipynb                   # Explainability exploration
+    ├── 03-attacks.ipynb               # Warm-up + explanation attacks (has the sign bug; see 04)
+    ├── 04-explanation-attack-v2.ipynb # Corrected & improved explanation attack (genuine pairs)
+    └── 05-xssab-and-transfer.ipynb    # xSSAB-style XAI + cross-method attack transfer
 ```
+
+> **Note on notebook 03.** Its warm-up attacks all report `flip_rate = 0.00` because
+> the I-FGSM update ascends the loss while the loss functions already carry the attack
+> sign, so similarity moves *away* from the decision boundary. The explanation attack
+> inherits the same inverted step (it makes the saliency map *more* similar and degrades
+> the decision). Notebook 04 rewrites everything as gradient **descent on a loss to
+> minimise** and fixes the objective/metric mismatch (it maximised MSE but evaluated
+> Pearson correlation, two different things). Treat 03 as the buggy baseline and 04 as
+> the corrected version.
 
 The notebooks are structured to run on **Kaggle**.
 
