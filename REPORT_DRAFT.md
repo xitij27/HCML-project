@@ -1,10 +1,5 @@
 # Adversarial Manipulation of Explanations in Face Verification
 
-### What changes, what does not, and why
-
-**HCML bonus project** · ElasticFace-Arc (iResNet-100) on LFW · 6,000 pairs
-
----
 
 ## Abstract
 
