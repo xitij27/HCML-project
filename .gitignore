@@ -33,3 +33,10 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Kaggle upload staging folder (duplicates notebooks/*.csv|json|npz)
+kaggle_nb10_input/
+
+# Raw embeddings + scores: 17 MB, read by nothing downstream, and any
+# notebook recomputes it in ~40 s. The derived summaries are tracked.
+experiments/*/outputs/*_protocol_scores.npz

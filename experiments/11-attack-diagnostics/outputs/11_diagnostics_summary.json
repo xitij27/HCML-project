@@ -1,0 +1,68 @@
+{
+  "verdict_a": "MIXED",
+  "verdict_b": "REDUNDANCY CONFIRMED",
+  "verdict_c": "INCONCLUSIVE",
+  "diag_pairs": 300,
+  "sweep": [
+    {
+      "sim_tol": 0.02,
+      "abs_delta_sim": 0.011799961825211843,
+      "preserved": 1.0,
+      "linf": 1.2157574218014877,
+      "shrunk": 0.88,
+      "pearson": 0.4794063497905633,
+      "del_auc_before": 0.19143234805991718,
+      "del_auc_after": 0.19833528677703968,
+      "ins_auc_after": 0.5731695777682277,
+      "halvings": 0.9490833333333333,
+      "toward_floor": 0.03870061999493792
+    },
+    {
+      "sim_tol": 0.05,
+      "abs_delta_sim": 0.025976051092147828,
+      "preserved": 1.0,
+      "linf": 2.806574447651704,
+      "shrunk": 0.43666666666666665,
+      "pearson": 0.22022565695552515,
+      "del_auc_before": 0.19145457665350601,
+      "del_auc_after": 0.21353626563594058,
+      "ins_auc_after": 0.5764136926482122,
+      "halvings": 0.2793333333333333,
+      "toward_floor": 0.12381416112671252
+    },
+    {
+      "sim_tol": 0.1,
+      "abs_delta_sim": 0.04618547528982162,
+      "preserved": 1.0,
+      "linf": 3.642214127977689,
+      "shrunk": 0.14333333333333334,
+      "pearson": 0.1085615570726564,
+      "del_auc_before": 0.1914576178378969,
+      "del_auc_after": 0.2254341242572991,
+      "ins_auc_after": 0.5798105833317775,
+      "halvings": 0.06333333333333334,
+      "toward_floor": 0.19051279907498098
+    },
+    {
+      "sim_tol": 0.2,
+      "abs_delta_sim": 0.06060144424438477,
+      "preserved": 1.0,
+      "linf": 3.953262247244517,
+      "shrunk": 0.023333333333333334,
+      "pearson": 0.06539637926907738,
+      "del_auc_before": 0.19145916870938773,
+      "del_auc_after": 0.2298487387116766,
+      "ins_auc_after": 0.5845611164108073,
+      "halvings": 0.004916666666666666,
+      "toward_floor": 0.215259566328542
+    }
+  ],
+  "border_mass_before": 0.23897785251339276,
+  "border_mass_after": 0.27451135410616795,
+  "com_shift_median": 7.843280544527133,
+  "top10_inside_after": 0.7199441768725713,
+  "target_border_mass_after": 0.6139505783716838,
+  "target_toward_floor": 0.1992994448271469,
+  "divergence_toward_floor": 0.12381416112671252,
+  "random_del_auc": 0.3698
+}

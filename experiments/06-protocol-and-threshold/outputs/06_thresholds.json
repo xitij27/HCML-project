@@ -1,0 +1,18 @@
+{
+  "eer_threshold": 0.21356485784053802,
+  "eer": 0.0030000000000000014,
+  "fmr_thresholds": {
+    "0.1": 0.09425855427980423,
+    "0.01": 0.1682628095149994,
+    "0.001": 0.24828895926475525
+  },
+  "legacy_threshold": 0.3,
+  "lfw_10fold_accuracy_mean": 0.998,
+  "lfw_10fold_accuracy_std": 0.0024595492912420783,
+  "lfw_10fold_mean_threshold": 0.2611784994602203,
+  "n_pairs": 6000,
+  "n_genuine": 3000,
+  "n_imposter": 3000,
+  "probe_side": "random",
+  "probe_seed": 20260728
+}

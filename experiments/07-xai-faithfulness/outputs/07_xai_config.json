@@ -1,0 +1,16 @@
+{
+  "methods": [
+    "gradient",
+    "xssab",
+    "xface",
+    "random"
+  ],
+  "insdel_steps": 20,
+  "delete_value": 0.0,
+  "insert_blur_sigma": 8.0,
+  "xface_grid": 14,
+  "xssab_thr": 0.0,
+  "eer_threshold": 0.21340146660804749,
+  "eer": 0.0030000000000000014,
+  "n_pairs": 6000
+}

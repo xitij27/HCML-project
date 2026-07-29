@@ -1,0 +1,25 @@
+{
+  "epsilon_255": 4.0,
+  "steps": 40,
+  "alpha_frac": 0.15,
+  "lambda_pred": 4.0,
+  "lambda_expl": 1.0,
+  "sim_tol": 0.05,
+  "attacked_method": "gradient",
+  "transfer_methods": [
+    "gradient",
+    "xssab",
+    "xssab_actor",
+    "xface"
+  ],
+  "insdel_steps": 20,
+  "eer_threshold": 0.21361280977725983,
+  "eer": 0.0030000000000000014,
+  "n_pairs": 2991,
+  "thresholds": {
+    "EER": 0.21361280977725983,
+    "FMR<=0.1": 0.09416165202856064,
+    "FMR<=0.01": 0.168425053358078,
+    "FMR<=0.001": 0.24842537939548492
+  }
+}
