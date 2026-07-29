@@ -13,7 +13,7 @@ that a human reviewer can inspect the machine's reasoning and catch its mistakes
 whether that safeguard can be defeated: can an imperceptible perturbation to one image of a
 pair leave the verification decision intact while making the explanation misleading?
 
-We find that the decision is trivially preservable and the explanation is easy to *move* —
+We find that the decision is trivially preservable and the explanation is easy to *move*:
 an L∞ ≤ 4/255 perturbation holds the similarity score to within ±0.026 while relocating 75%
 of the saliency map's hot-spots and driving map correlation to 0.236. But when we evaluate
 the attacked explanation with insertion and deletion curves rather than map correlation, it
@@ -35,7 +35,7 @@ evaluation reveals the difference.
 
 ## 1. Motivation
 
-Face recognition is deployed where the consequences of error are severe — border control,
+Face recognition is deployed where the consequences of error are severe: border control,
 forensic casework, evidence in court. Explainability methods such as xFace [3] and
 xSSAB [2] are proposed for exactly these settings, on the argument that a saliency map lets
 a human auditor verify that the system attended to the right evidence.
@@ -44,7 +44,7 @@ That argument has an unexamined premise: it assumes the explanation is *trustwor
 same way the decision is not*. But a saliency map is another model output computed from the
 same weights and the same input, and adversarial fragility of explanations has been
 demonstrated for image classifiers [5, 6]. If the same holds for face verification, an
-explanation is not an independent check — it inherits the vulnerability of the thing it is
+explanation is not an independent check; it inherits the vulnerability of the thing it is
 meant to audit, while appearing more trustworthy because it is legible.
 
 **The threat model.** A verification system reports *"same person"* and shows a saliency map
@@ -55,7 +55,7 @@ with a fabricated justification. This is realistic wherever image files are subm
 later reviewed; it is *not* a threat to live camera capture.
 
 Note the asymmetry with standard adversarial attacks on biometrics: those try to flip the
-decision. Here the decision must survive untouched — it is the explanation alone that is
+decision. Here the decision must survive untouched; it is the explanation alone that is
 under attack.
 
 ---
@@ -67,12 +67,12 @@ cosine of the L2-normalised embeddings.
 
 **Data.** LFW view-2: 12,000 images forming 6,000 consecutive pairs, arranged as 10 folds of
 600 with each fold being 300 genuine followed by 300 imposter pairs. We verified this layout
-rather than assuming it — under the assumed labelling the two score distributions separate at
+rather than assuming it: under the assumed labelling the two score distributions separate at
 Cohen's *d* = 8.32, while two competing hypotheses collapse to *d* ≈ 0.01, and the separation
 holds independently in every fold.
 
-**Probe and reference.** Each pair is split into a **probe** — the single image an attack may
-modify — and a **reference**, which is never touched. The split is asserted pairwise and
+**Probe and reference.** Each pair is split into a **probe**, the single image an attack may
+modify, and a **reference**, which is never touched. The split is asserted pairwise and
 chosen by a seeded per-pair coin flip, so the attacked image is not systematically image 0
 (49.8% / 50.2%), and probe ∪ reference covers all 12,000 images exactly once.
 
@@ -107,9 +107,9 @@ information" scores. Without the floor, a post-attack number has no scale.
 the probe and track cosine similarity to the untouched reference, in the order the saliency
 map ranks pixels:
 
-- **Deletion** — replace the most salient pixels with mid-grey. A faithful map destroys the
+- **Deletion.** Replace the most salient pixels with mid-grey. A faithful map destroys the
   match early, so **low AUC is good**.
-- **Insertion** — restore the most salient pixels over a blurred probe. A faithful map
+- **Insertion.** Restore the most salient pixels over a blurred probe. A faithful map
   rebuilds the match early, so **high AUC is good**.
 
 We evaluate four maps over all 6,000 pairs: the squared input-gradient, our implementation of
@@ -118,7 +118,7 @@ xSSAB [2], xFace occlusion [3], and uniform noise as the control.
 ![The four explanation methods on one genuine pair](experiments/07-xai-faithfulness/figures/07_methods_pair0.png)
 
 **Figure 2.** The four maps on genuine pair 0 (similarity +0.729). Probe `0.jpg` and reference
-`1.jpg` are different photographs — only the probe is ever modified. Gradient is pixel-sharp
+`1.jpg` are different photographs; only the probe is ever modified. Gradient is pixel-sharp
 and sparse, xSSAB denser and more semantic, xFace blocky because it is grid-based, and the
 random control is structureless. All three real methods concentrate on the face interior.
 
@@ -131,7 +131,7 @@ random control is structureless. All three real methods concentrate on the face 
 | xSSAB (combined) | 0.1971 | 0.5319 | 0.3349 |
 | **random (floor)** | **0.3698** | **0.4806** | **0.1108** |
 
-Every real method separates decisively from noise — gradient beats random at **Cohen's
+Every real method separates decisively from noise: gradient beats random at **Cohen's
 d = 3.44**, an order of magnitude larger than any difference *between* methods (d = 0.16 to
 1.14). The implementation validates on its endpoints: all four methods share identical curve
 endpoints (deletion 0.7196 → 0.0019, insertion 0.0272 → 0.7196), because those are properties
@@ -163,7 +163,7 @@ evidence to localise, all curves collapse toward zero.
 ## 4. Warm-up: attacking the decision
 
 Before claiming an attack *preserves* a decision, the pipeline must be able to *break* one on
-purpose. We run FGSM and I-FGSM in both directions over all 6,000 pairs — obfuscation on
+purpose. We run FGSM and I-FGSM in both directions over all 6,000 pairs: obfuscation on
 genuine pairs (similarity must fall below τ), impersonation on imposter pairs (must rise
 above it).
 
@@ -173,27 +173,27 @@ holds at ~100% across every operating point from FMR = 10⁻¹ to 10⁻³.
 
 An asymmetry appears at low budget: impersonation succeeds on 62.4% of pairs at 1/255 against
 only 6.7% for obfuscation. Two competing effects produce this. Obfuscation displaces the
-score **more** per unit of perturbation (1.18× at 1/255, rising to 1.73× at 8/255) — pushing
+score **more** per unit of perturbation (1.18× at 1/255, rising to 1.73× at 8/255): pushing
 an embedding *away* from a point is easier than steering it *toward* one. But obfuscation has
 **2.41× further to travel**, because τ = 0.2136 sits close to the imposter mean (gap 0.210)
 and far from the genuine mean (gap 0.506). The second effect dominates.
 
 This is worth stating because it shows attack success rates are as much a statement about
-*where the operating threshold sits* as about the attack itself — which is why the threshold
+*where the operating threshold sits* as about the attack itself, which is why the threshold
 had to be derived before any of this could be interpreted.
 
 ![Decision attack score distributions](experiments/08-decision-attacks/figures/08_decision_attack_distributions.png)
 
 **Figure 4.** I-FGSM at 4/255. The two populations swap sides of the threshold completely:
 genuine scores fall from ~+0.72 to ~−0.40 and imposter scores rise from ~0.00 to ~+0.69. The
-right panel is the direction check — genuine Δsim must be negative and imposter positive, and
+right panel is the direction check: genuine Δsim must be negative and imposter positive, and
 the two distributions do not overlap zero.
 
 ![Attack success vs perturbation budget](experiments/08-decision-attacks/figures/08_epsilon_sweep.png)
 
 **Figure 5.** Success rate against budget, both attacks and both directions, at the EER
 threshold. Impersonation (red) dominates at small budgets despite obfuscation displacing the
-score further per unit of ε — the threshold simply sits closer to the imposter distribution.
+score further per unit of ε; the threshold simply sits closer to the imposter distribution.
 Both saturate at 4/255.
 
 ---
@@ -208,14 +208,14 @@ L  =  λ_pred · relu(|sim − sim₀| − tol)          keep the score where it
 ```
 
 The decision term is **two-sided**: it penalises the score for moving in *either* direction,
-not merely for falling below a floor. This matters — a one-sided floor lets the attack push
+not merely for falling below a floor. This matters: a one-sided floor lets the attack push
 similarity *upward*, which preserves the decision but reads as a bug and weakens the claim.
 After each step the perturbation is projected into the ε-ball and then shrunk per-sample if
 the score leaves the band.
 
 The explanation term is Pearson correlation rather than MSE because correlation is
-scale-invariant: doubling every value of a map produces a large MSE while leaving the pattern
-— and hence what a reviewer sees — completely unchanged.
+scale-invariant: doubling every value of a map produces a large MSE while leaving the pattern,
+and hence what a reviewer sees, completely unchanged.
 
 **Setup.** 2,991 accepted genuine pairs, ε = 4/255, 40 steps, tol = 0.05.
 
@@ -225,7 +225,7 @@ scale-invariant: doubling every value of a map produces a large MSE while leavin
 - **decision preserved on 100% of pairs at all four operating points**
 - mean L∞ **2.67/255**, well inside the invisible budget
 
-The score does not merely stay on the correct side of a line — it stays where it was.
+The score does not merely stay on the correct side of a line; it stays where it was.
 
 ![Explanation attack on genuine pair 1](experiments/09-explanation-attack/figures/09_example_pair1.png)
 
@@ -239,7 +239,7 @@ the gradient-free xFace map is essentially untouched (r = 0.82).
 
 - Pearson correlation with the original: **0.236** mean, **0.128** median; 38.8% of pairs
   below 0.1, 75.7% below 0.3
-- top-10% hot-spot overlap **0.253** — **75% of the originally-hottest pixels relocate**
+- top-10% hot-spot overlap **0.253**, so **75% of the originally-hottest pixels relocate**
 
 By any map-comparison metric, the reviewer is shown a different explanation of a decision
 that has not moved.
@@ -254,7 +254,7 @@ that has not moved.
 | xFace | 0.1777 → 0.1952 | 9.1% | ~97% |
 
 The rise is overwhelmingly significant (p ≈ 1e-221 at n = 2,991) but small. Insertion barely
-moves and if anything drifts the wrong way — consistent with §3's finding that insertion has
+moves and if anything drifts the wrong way, consistent with §3's finding that insertion has
 little headroom here.
 
 Two pieces of evidence show this is a real mechanism rather than noise: per pair, the amount
@@ -265,7 +265,7 @@ most-disrupted pairs deletion AUC rises 0.225 → 0.282, nearly three times the 
 
 **Figure 7.** The central figure of the study. For each method: unattacked (dark), attacked
 (red), and the random-saliency control (grey). The attacked bars barely move from the
-unattacked ones and remain far from the control — the explanation changed, but it did not
+unattacked ones and remain far from the control: the explanation changed, but it did not
 become uninformative. Insertion (middle) moves so little that it is visually flat, consistent
 with its narrow headroom.
 
@@ -290,19 +290,19 @@ knows.**
 
 A monotone staircase rising with distance from the map the attack optimised. **This attacks a
 *family* of explanations, not the model's reasoning.** An auditor using an occlusion-based
-tool would still see roughly the truth — a real limitation, and simultaneously a cheap,
+tool would still see roughly the truth: a real limitation, and simultaneously a cheap,
 concrete defence.
 
 ![Attack transfer across explanation families](experiments/10-results-and-discussion/figures/10_transfer.png)
 
 **Figure 9.** Transfer. Both map-similarity metrics rise monotonically with distance from the
-optimised map, and xFace — which uses no gradients — retains most of its explanation under
+optimised map, and xFace, which uses no gradients, retains most of its explanation under
 both.
 
 ### 5.5 An aside on xSSAB
 
 Measuring both variants shows the **actor map alone** scores deletion 0.1801 / insertion
-0.5613 — *identical* to the raw input-gradient map — while the combined actor−counteractor
+0.5613, *identical* to the raw input-gradient map, while the combined actor−counteractor
 map is clearly worse (0.1976 / 0.5334). Any ranking that places xSSAB last is an artefact of
 scoring the combined map. `xssab_actor` is the variant to use.
 
@@ -313,11 +313,11 @@ scoring the combined map. `xssab_actor` is the variant to use.
 §5 leaves an unexplained gap: correlation collapses, faithfulness does not. Two hypotheses,
 both testable.
 
-**H1 — the budget.** The ±0.05 band shrank the perturbation on 49.9% of pairs. Perhaps the
+**H1: the budget.** The ±0.05 band shrank the perturbation on 49.9% of pairs. Perhaps the
 attack was simply not allowed enough room.
 
-**H2 — the objective.** The attack minimises *correlation*, but faithfulness is a different
-quantity. A face is redundant — eyes, nose bridge, mouth and jawline all carry identity — so
+**H2: the objective.** The attack minimises *correlation*, but faithfulness is a different
+quantity. A face is redundant: eyes, nose bridge, mouth and jawline all carry identity, so
 the attack could lower correlation by moving the ranking onto a *different set of genuinely
 informative pixels*, never pointing anywhere uninformative.
 
@@ -330,7 +330,7 @@ informative pixels*, never pointing anywhere uninformative.
 | 0.10 | 0.0462 | 14% | 0.109 | 0.2254 | 19.1% |
 | 0.20 | 0.0606 | **2%** | **0.065** | 0.2298 | **21.5%** |
 
-Loosening does buy real disruption — so H1 is not empty. But the marginal returns **saturate**
+Loosening does buy real disruption, so H1 is not empty. But the marginal returns **saturate**
 (+8.5, +6.7, +2.5 points), and at the widest band the constraint is essentially *off* (2% of
 pairs shrunk, L∞ 3.95 of 4.00) with correlation already floored at 0.065. The attack still
 reaches only **21.5%** of the way to the random floor.
@@ -341,12 +341,12 @@ reaches only **21.5%** of the way to the random floor.
 
 **Figure 10.** Left: deletion AUC against the allowed score drift, with the unattacked level
 and the random floor marked. The curve rises but flattens, and never approaches the floor.
-Middle: the quantity the attack actually optimises falls steadily to 0.065 — it is not the
+Middle: the quantity the attack actually optimises falls steadily to 0.065; it is not the
 correlation objective that is failing to converge. Right: the two plotted against each other
 is the trade-off curve between score stability and explanation disruption.
 
 This also places earlier work on the curve: a reported correlation of 0.06 bought with a
-~+0.09 score drift is the tol ≈ 0.20 point here, reaching 21.5% — no longer an incomparable
+~+0.09 score drift is the tol ≈ 0.20 point here, reaching 21.5%, no longer an incomparable
 anecdote but a labelled position on a trade-off.
 
 ### 6.2 Where the saliency actually went (tests H2)
@@ -357,7 +357,7 @@ Measuring the same pairs at tol = 0.05:
 - top-10% hot-spots remaining on the face: 76.9% → 72.0%
 - centre-of-mass shift: **median 7.84 px** on a 112 px image
 
-The mass stayed on the face and moved *within* it. **H2 confirmed** — the attack swapped one
+The mass stayed on the face and moved *within* it. **H2 confirmed**: the attack swapped one
 identity-bearing region for another, which is exactly why correlation collapsed while
 faithfulness did not.
 
@@ -386,12 +386,12 @@ We report both.
 *(concentration = mass share ÷ area share; 1.0 = no spatial preference)*
 
 Targeting faithfulness beats decorrelation under both definitions, confirming that
-correlation and faithfulness are **dissociable** — the central methodological claim,
+correlation and faithfulness are **dissociable**, the central methodological claim,
 demonstrated rather than argued. Under the frame it does so while changing the map *less* and
 costing *less* score drift.
 
 But the tighter, more defensible region makes the attack **harder**, not easier. The
-unattacked explanation places only 5.3% of its mass outside the ellipse — a region covering
+unattacked explanation places only 5.3% of its mass outside the ellipse, a region covering
 37.8% of the image, so a concentration of **0.14**. The explanation strongly *avoids*
 background. The attack quadruples this to 0.215, but never reaches the 0.378 no-preference
 line.
@@ -404,7 +404,7 @@ an optimisation difficulty.
 ![Target objective vs decorrelation](experiments/11-attack-diagnostics/figures/11_target_mode.png)
 
 **Figure 12.** Left: both objectives lift the deletion AUC, the target objective further, but
-neither reaches the random floor. Middle: the target objective does succeed at its own task —
+neither reaches the random floor. Middle: the target objective does succeed at its own task:
 off-face saliency mass rises sharply. Right: the per-pair distribution of faithfulness lost is
 shifted right for the target objective. *(Border-frame definition; the ellipse result is in the
 table above.)*
@@ -412,7 +412,7 @@ table above.)*
 ![Divergence vs target objective on one pair](experiments/11-attack-diagnostics/figures/11_modes_pair0.png)
 
 **Figure 13.** The two objectives on the same pair. Under `divergence` (middle row) the
-saliency relocates from the eyes to the mouth and chin — still on the face. Under `target`
+saliency relocates from the eyes to the mouth and chin, still on the face. Under `target`
 (bottom row) a visible cluster appears in the upper-right background and off-face mass more
 than doubles. Both leave the photograph unchanged to the eye and the score within the band
 (+0.729 → +0.748 and +0.692). This is redundancy and invariance in one picture: the attack can
@@ -426,9 +426,9 @@ move mass, but what it moves it *onto* still has to be somewhere the model looks
 
 Two mechanisms jointly explain the ceiling:
 
-1. **Inside the face — redundancy.** Multiple regions carry identity, so relocating the
+1. **Inside the face: redundancy.** Multiple regions carry identity, so relocating the
    ranking among them preserves faithfulness while destroying correlation.
-2. **Outside the face — invariance.** The model has no gradient in background, so saliency
+2. **Outside the face: invariance.** The model has no gradient in background, so saliency
    mass cannot be pushed there.
 
 Together: **the saliency map's support region is a property of the model. An imperceptible
@@ -436,7 +436,7 @@ perturbation can shuffle mass within that support, but cannot move the support i
 
 This is a positive statement about robustness, not merely a failed attack. It predicts that
 explanation attacks of this form will have a structural ceiling on any model with learned
-background invariance and a redundant signal — which is to say, on any well-trained face
+background invariance and a redundant signal, which is to say on any well-trained face
 recognition system.
 
 ### 7.2 The methodological result
@@ -463,7 +463,7 @@ So the honest position keeps both statements:
 - by hot-spot displacement, the attack **succeeds** at changing what a human is told;
 - by faithfulness, it **largely fails** to make the explanation wrong.
 
-The gap between them is itself a finding about how explanation attacks should be evaluated —
+The gap between them is itself a finding about how explanation attacks should be evaluated,
 and an argument that neither metric alone is sufficient.
 
 ### 7.4 What can and cannot be claimed
@@ -485,7 +485,7 @@ demonstrably false justification. The evidence supports *different*, not *wrong*
   transfer untested.
 - **Digital only.** No JPEG re-compression, resizing or print-scan robustness; perturbations
   are pixel-exact.
-- **One model, one dataset.** LFW is near-saturated for ElasticFace-Arc — the entire error
+- **One model, one dataset.** LFW is near-saturated for ElasticFace-Arc: the entire error
   budget is nine pairs per side, and FMR = 10⁻³ rests on three imposter pairs. A harder
   benchmark would give a more discriminating operating curve.
 - **xSSAB is our implementation** from the published paper and the reference implementation's
@@ -507,7 +507,7 @@ demonstrably false justification. The evidence supports *different*, not *wrong*
    the ceiling can be *predicted* rather than merely observed.
 3. **Patch-LFW** [2] for a number directly comparable to the published xSSAB evaluation.
 4. **Counteractor attack** on rejected pairs.
-5. **Robustness and defence** — JPEG/resize survival, and whether SmoothGrad-style averaging
+5. **Robustness and defence.** JPEG/resize survival, and whether SmoothGrad-style averaging
    restores faithfulness under attack. Both are premature until an attack that materially
    damages faithfulness exists.
 
@@ -517,7 +517,7 @@ demonstrably false justification. The evidence supports *different*, not *wrong*
 
 An imperceptible perturbation to one image of a verification pair can hold the decision and
 the similarity score fixed while rewriting three quarters of the saliency map's hot-spots.
-Judged by map correlation — the standard in this literature — that is a successful attack on
+Judged by map correlation, the standard in this literature, that is a successful attack on
 the explanation.
 
 Judged by whether the resulting explanation is still *correct*, it is not. The attacked map
@@ -528,7 +528,7 @@ relocate among informative pixels, and background invariance prevents it from le
 
 The saliency map's support is a property of the model, not of the input, and an imperceptible
 perturbation cannot move it. That is a more useful finding than a successful attack would have
-been — and it was only visible because the explanation was evaluated for faithfulness rather
+been, and it was only visible because the explanation was evaluated for faithfulness rather
 than for change.
 
 ---
