@@ -48,7 +48,7 @@ project/
 │   │   ├── ifgsm.py             # I-FGSM on FR decision (warm-up)
 │   │   └── explanation_attack.py # Main contribution: attack the explanation
 │   └── evaluate.py              # Metrics and visualisation
-└── notebooks/
+└── experiments/
     ├── 01_data_and_model.ipynb
     ├── 02_xai_exploration.ipynb
     └── 03_adversarial_attacks.ipynb
