@@ -34,6 +34,18 @@ Thumbs.db
 *.swp
 *.swo
 
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+report/*.log
+missfont.log
+texput.log
+
 # Kaggle upload staging folder (duplicates notebooks/*.csv|json|npz)
 kaggle_nb10_input/
 
