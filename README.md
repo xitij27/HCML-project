@@ -16,17 +16,15 @@ redundancy inside the face, and the model's learned invariance to background.
 
 | Document | What it is |
 |---|---|
-| **[REPORT_DRAFT.md](REPORT_DRAFT.md)** | The research report — motivation, method, results, discussion |
+| **[report/Report.pdf](report/Report.pdf)** | The final report — 3-page IEEE-format writeup, with appendices |
 | **[RESULTS.md](RESULTS.md)** | Every final number, in tables |
-| [FEEDBACK_RESPONSE.md](FEEDBACK_RESPONSE.md) | Each point of the supervisor review → what changed → where |
-| [NEXT_EXPERIMENTS.md](NEXT_EXPERIMENTS.md) | Follow-ups worth running, prioritised |
-| [approach.md](approach.md) | The original project brief (predates the corrections) |
 
 ## Layout
 
 ```
 .
-├── REPORT_DRAFT.md  RESULTS.md  FEEDBACK_RESPONSE.md  NEXT_EXPERIMENTS.md  approach.md
+├── RESULTS.md
+├── report/                            # report/main.tex, refs.bib, figures/, Report.pdf
 ├── elastic_resnet.py                  # iResNet-100 backbone (inlined into each notebook)
 ├── references/ElasticFace_paper.pdf
 └── experiments/
@@ -72,7 +70,8 @@ smoke test before committing to a full run. All of them use every visible GPU; o
 
 ## Dataset
 
-**12,000 images = 6,000 pairs**, not the 900 assumed in `approach.md` and notebooks `01`–`05`.
+**12,000 images = 6,000 pairs**, not the 900 assumed in the original project brief and
+notebooks `01`–`05`.
 Images are named sequentially (`0.jpg`, `1.jpg`, …), 112×112, pre-aligned; consecutive images
 form a pair. The layout is standard **LFW view-2** — 10 folds × 600 pairs, each fold being 300
 genuine followed by 300 imposter:
